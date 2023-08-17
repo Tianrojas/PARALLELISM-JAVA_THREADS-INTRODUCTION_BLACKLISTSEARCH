@@ -21,6 +21,10 @@
 	2. Inicie los tres hilos con 'start()'.
 	3. Ejecute y revise la salida por pantalla. 
 	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
+   	   _Cuando se realiza el inicio la forma de impresion del ciclo cambia._ \
+	   _Con 'start()' los numeros se imprimen desordenadamente dando una nocion de que el proceso se esta realizando con paralelismo presente._
+   	   _Mientras que con run() los numeros se imprimen secuencialmente a como se diseño la ejecucion dado por el contrario una nocion de que el ´proceso se esta realizando concurrentemente._ \
+       _Esto se da ya que el metodo start() crea un nuevo hilo del sistema y llama al metodo run() en este hilo. Por otro lado, el metodo run() solo define el comportamiento del hilo, pero no lo inicia. Si se llama al metodo run() directamente, el codigo se ejecutara en el hilo actual, no en un nuevo hilo._
 
 **Parte II - Ejercicio Black List Search**
 
