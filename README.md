@@ -20,7 +20,7 @@
 	1. Cree 3 hilos de tipo CountThread, asignándole al primero el intervalo [0..99], al segundo [99..199], y al tercero [200..299].
 	2. Inicie los tres hilos con 'start()'.
 	3. Ejecute y revise la salida por pantalla. 
-	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
+	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?. \
    	   _Cuando se realiza el inicio la forma de impresion del ciclo cambia._ \
 	   _Con 'start()' los numeros se imprimen desordenadamente dando una nocion de que el proceso se esta realizando con paralelismo presente._
    	   _Mientras que con run() los numeros se imprimen secuencialmente a como se diseño la ejecucion dado por el contrario una nocion de que el ´proceso se esta realizando concurrentemente._ \
