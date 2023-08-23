@@ -63,22 +63,26 @@ Para 'refactorizar' este código, y hacer que explote la capacidad multi-núcleo
 
 **Parte II.I Para discutir la próxima clase (NO para implementar aún)**
 
-La estrategia de paralelismo antes implementada es ineficiente en ciertos casos, pues la búsqueda se sigue realizando aún cuando los N hilos (en su conjunto) ya hayan encontrado el número mínimo de ocurrencias requeridas para reportar al servidor como malicioso. Cómo se podría modificar la implementación para minimizar el número de consultas en estos casos?, qué elemento nuevo traería esto al problema?
+La estrategia de paralelismo antes implementada es ineficiente en ciertos casos, pues la búsqueda se sigue realizando aún cuando los N hilos (en su conjunto) ya hayan encontrado el número mínimo de ocurrencias requeridas para reportar al servidor como malicioso. Cómo se podría modificar la implementación para minimizar el número de consultas en estos casos?, qué elemento nuevo traería esto al problema? \
+_Se puede bien crear una variable compartida que lleve un seguimiento del número total de ocurrencias encontradas por todos los hilos. Inicialízala a cero antes de comenzar la búsqueda._ \
+_Como tambien actualizar la variable de ocurrencias totales en cada hilo, cada vez que un hilo encuentra una ocurrencia, actualiza esta variable compartida de ocurrencias totales. Asegurándose de que esta actualización se realice de manera segura para hilos (sincronizada o utilizando mecanismos de concurrencia apropiados)._ \
+_O bien se podría introducir una condición de parada anticipada, donde antes de iniciar una nueva búsqueda en un servidor dentro de un hilo, verifica si la cantidad mínima de ocurrencias requeridas ya se ha alcanzado. Si es así, se detiene el hilo de inmediato para evitar búsquedas adicionales innecesarias._ \
+_Trayendo a colación conceptos importantes para la concurrencia, como lo son sincronización y Thread-Safe._  
 
 **Parte III - Evaluación de Desempeño**
 
 A partir de lo anterior, implemente la siguiente secuencia de experimentos para realizar las validación de direcciones IP dispersas (por ejemplo 202.24.34.55), tomando los tiempos de ejecución de los mismos (asegúrese de hacerlos en la misma máquina):
 
-1. Un solo hilo.
-2. Tantos hilos como núcleos de procesamiento (haga que el programa determine esto haciendo uso del [API Runtime](https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html)).
-3. Tantos hilos como el doble de núcleos de procesamiento.
-4. 50 hilos.
-5. 100 hilos.
+1. Un solo hilo. _Execution time: 157.74 seconds_
+2. Tantos hilos como núcleos de procesamiento (haga que el programa determine esto haciendo uso del [API Runtime](https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html)). _Execution time: 81.292 seconds_
+3. Tantos hilos como el doble de núcleos de procesamiento. _Execution time: 41.867 seconds_
+4. 50 hilos. _Execution time: 3.653 seconds_
+5. 100 hilos. _Execution time: 1.894 seconds_
 
 Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las pruebas, revise y anote el consumo de CPU y de memoria en cada caso. ![](img/jvisualvm.png)
 
 Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tiempo de solución vs. número de hilos. Analice y plantee hipótesis con su compañero para las siguientes preguntas (puede tener en cuenta lo reportado por jVisualVM):
-
+	![img_1.png](img_1.png) \
 **Parte IV - Ejercicio Black List Search**
 
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
