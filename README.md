@@ -82,16 +82,21 @@ A partir de lo anterior, implemente la siguiente secuencia de experimentos para 
 Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las pruebas, revise y anote el consumo de CPU y de memoria en cada caso. ![](img/jvisualvm.png)
 
 Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tiempo de solución vs. número de hilos. Analice y plantee hipótesis con su compañero para las siguientes preguntas (puede tener en cuenta lo reportado por jVisualVM): \
-	![img_1.png](img_1.png) \
+	![img_1.png](img/img_1.png) \
 **Parte IV - Ejercicio Black List Search**
 
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
 
-	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?. 
-
+	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?.
+	* _La Ley de Amdahl establece que el mejoramiento teórico del rendimiento de un programa paralelizado se limita por la fracción secuencial del algoritmo. En otras palabras, aunque puedas agregar más hilos para paralelizar una tarea, si una parte significativa del algoritmo aún se ejecuta de forma secuencial, entonces el rendimiento total no mejorará de manera significativa a medida que aumentes el número de hilos._
+	* _Cuando se tienen 500 hilos, la fracción paralelizable del algoritmo (F) no es lo suficientemente grande, es decir, si aún existe una cantidad significativa de trabajo secuencial, entonces la Ley de Amdahl nos dice que el rendimiento no mejorará drásticamente, incluso con un gran número de hilos. Esto significa que el costo de administrar y coordinar 500 hilos puede superar cualquier ganancia en rendimiento debido a la paralelización._
+	* _Con 200 hilos, se experimenta una mejora en el rendimiento en comparación con 500 hilos ya que la administración y la sobrecarga de hilos se reducen significativamente. Sin embargo, aún se limitará en gran medida por la fracción secuencial del algoritmo (1−F). En general, 200 hilos pueden ser más manejables y eficientes en términos de recursos que 500 hilos, y aún podrían proporcionar un rendimiento razonable si la fracción paralelizable (F) es suficientemente grande._ 
 2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
-
+	* **Usar tantos hilos como núcleos de la CPU** _En este escenario, se está utilizando eficientemente los recursos de la CPU al tener un hilo por cada núcleo físico de la CPU. Esto puede ser beneficioso para tareas altamente paralelizables, donde cada hilo puede trabajar de manera independiente y no necesita esperar a otros hilos. Si el problema es altamente paralelizable y la administración de hilos se realiza eficientemente, es posible lograr una buena utilización de la CPU y una aceleración significativa en comparación con la ejecución secuencial._
+    * **Usar el doble de hilos que núcleos de la CPU** _Cuando el problema es altamente paralelizable, como en este caso, y la administración de hilos se realiza eficientemente, se puede lograr una aceleración significativa al usar más hilos. Esto podría ser beneficioso si hay tareas de E/S (entrada/salida) que pueden ejecutarse en paralelo con el procesamiento principal, lo que permite aprovechar al máximo la CPU mientras los hilos principales están ocupados._
 3. De acuerdo con lo anterior, si para este problema en lugar de 100 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 100 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 100/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
+	* 1 hilo en cada una de las 100 máquinas hipotéticas es más eficiente y aprovecha mejor la paralelización si el problema es altamente paralelizable como en este caso.
+	* Usar c hilos en 100/c máquinas distribuidas podría aumentar la complejidad y la sobrecarga de comunicación sin proporcionar una mejora significativa en el rendimiento. 
 
 
 
